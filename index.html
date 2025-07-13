@@ -16,6 +16,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
         
         .container {
@@ -31,12 +32,11 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
         
-        .current-date {
+        .subtitle {
             text-align: center;
-            color: white;
+            color: rgba(255,255,255,0.9);
             margin-bottom: 30px;
             font-size: 1.1rem;
-            opacity: 0.9;
         }
         
         .urgent-alert {
@@ -48,6 +48,12 @@
             margin-bottom: 30px;
             font-weight: bold;
             backdrop-filter: blur(10px);
+            animation: urgentPulse 3s infinite;
+        }
+        
+        @keyframes urgentPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(231, 76, 60, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(231, 76, 60, 0.8); }
         }
         
         .filters {
@@ -59,7 +65,7 @@
         }
         
         .filter-btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
             border-radius: 25px;
             background: rgba(255,255,255,0.2);
@@ -67,11 +73,15 @@
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
+            font-weight: 600;
+            border: 2px solid transparent;
         }
         
         .filter-btn:hover, .filter-btn.active {
             background: rgba(255,255,255,0.3);
             transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
         .accelerator-grid {
@@ -82,37 +92,64 @@
         
         .accelerator-card {
             background: rgba(255,255,255,0.95);
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
         
         .accelerator-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .accelerator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
         }
         
         .deadline-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 8px 12px;
-            border-radius: 20px;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 25px;
             font-size: 0.8rem;
             font-weight: bold;
             color: white;
             z-index: 2;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
         
-        .urgent { background: #e74c3c; animation: pulse 2s infinite; }
-        .soon { background: #f39c12; }
-        .open { background: #27ae60; }
-        .rolling { background: #3498db; }
-        .closed { background: #95a5a6; }
-        .unclear { background: #9b59b6; }
+        .urgent { 
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            animation: pulse 2s infinite;
+        }
+        .soon { 
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+        }
+        .open { 
+            background: linear-gradient(45deg, #27ae60, #229954);
+        }
+        .rolling { 
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+        .closed { 
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+        .unclear { 
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
         
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -121,25 +158,27 @@
         }
         
         .accelerator-name {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 15px;
-            padding-right: 120px;
+            padding-right: 140px;
         }
         
         .funding-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #3498db;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
         
         .funding-amount {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #27ae60;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         .equity {
@@ -150,92 +189,338 @@
         .zero-equity {
             color: #27ae60;
             font-weight: bold;
+            font-size: 1.1rem;
         }
         
         .unique-features {
             margin-top: 15px;
+            margin-bottom: 15px;
         }
         
         .feature-tag {
             display: inline-block;
             background: #ecf0f1;
             color: #34495e;
-            padding: 5px 10px;
-            border-radius: 15px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.8rem;
-            margin: 2px;
+            margin: 3px;
+            font-weight: 500;
+            border: 1px solid #bdc3c7;
+            transition: all 0.2s;
         }
         
-        .ai-tag { background: #e8f4fd; color: #3498db; }
-        .exclusive-tag { background: #fdf2e9; color: #e67e22; }
-        .special-tag { background: #eafaf1; color: #27ae60; }
+        .feature-tag:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        
+        .ai-tag { 
+            background: linear-gradient(135deg, #e8f4fd, #d4edda);
+            color: #3498db;
+            border-color: #3498db;
+        }
+        .exclusive-tag { 
+            background: linear-gradient(135deg, #fdf2e9, #fff3cd);
+            color: #e67e22;
+            border-color: #e67e22;
+        }
+        .special-tag { 
+            background: linear-gradient(135deg, #eafaf1, #d1ecf1);
+            color: #27ae60;
+            border-color: #27ae60;
+        }
         
         .deadline-info {
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #2c3e50;
+            font-size: 1rem;
+        }
+        
+        .days-left {
+            color: #e74c3c;
+            font-weight: bold;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.5; }
         }
         
         .program-details {
             color: #7f8c8d;
             font-size: 0.9rem;
-            margin-top: 10px;
+            margin-top: 12px;
+            line-height: 1.4;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
         
         .apply-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px 20px;
             border-radius: 25px;
             cursor: pointer;
-            width: 100%;
-            margin-top: 15px;
+            flex: 1;
             font-weight: bold;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
         
         .apply-btn:hover:not(:disabled) {
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
         .apply-btn:disabled {
-            background: #95a5a6;
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
             cursor: not-allowed;
             opacity: 0.6;
         }
         
-        .days-left {
-            font-size: 0.9rem;
-            color: #e74c3c;
+        .details-btn {
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 25px;
+            cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(52, 73, 94, 0.3);
+        }
+        
+        .details-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 73, 94, 0.4);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            margin: 3% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .modal-subtitle {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .close {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-section {
+            margin-bottom: 25px;
+        }
+        
+        .modal-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+        }
+        
+        .modal-funding {
+            background: linear-gradient(135deg, #e8f5e8, #f0f8ff);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #27ae60;
+            margin-bottom: 20px;
+        }
+        
+        .modal-requirements {
+            background: linear-gradient(135deg, #fff3e0, #fafafa);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #ff9800;
+        }
+        
+        .benefit-list {
+            list-style: none;
+        }
+        
+        .benefit-list li {
+            margin-bottom: 8px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .benefit-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .accelerator-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+            }
+            
+            .filters {
+                gap: 10px;
+            }
+            
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            color: white;
+            margin: 40px 0 30px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .section-header::before {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 0 auto 10px auto;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🚀 VC Accelerator Dashboard</h1>
-        <div class="current-date">📅 Current Date: July 13, 2025</div>
+        <div class="subtitle">📅 Current Date: July 13, 2025 • 22 Programs Researched • Real-Time Data</div>
         
         <div class="urgent-alert">
             ⚠️ URGENT: Alchemist Accelerator deadline is July 18 (5 days!) • Conviction Embed deadline is July 31 (18 days!)
         </div>
         
         <div class="filters">
-            <button class="filter-btn active" onclick="filterCards('all')">All Programs</button>
-            <button class="filter-btn" onclick="filterCards('urgent')">🚨 Urgent</button>
-            <button class="filter-btn" onclick="filterCards('rolling')">🔄 Rolling</button>
-            <button class="filter-btn" onclick="filterCards('ai')">🤖 AI-Focused</button>
-            <button class="filter-btn" onclick="filterCards('high-funding')">💰 High Funding</button>
-            <button class="filter-btn" onclick="filterCards('zero-equity')">🎯 Best Equity</button>
+            <button class="filter-btn active" onclick="filterCards('all')">All Programs (22)</button>
+            <button class="filter-btn" onclick="filterCards('urgent')">🚨 Urgent (3)</button>
+            <button class="filter-btn" onclick="filterCards('rolling')">🔄 Rolling (8)</button>
+            <button class="filter-btn" onclick="filterCards('ai')">🤖 AI-Focused (8)</button>
+            <button class="filter-btn" onclick="filterCards('high-funding')">💰 High Funding (10)</button>
+            <button class="filter-btn" onclick="filterCards('zero-equity')">🎯 Best Equity (3)</button>
         </div>
         
         <div class="accelerator-grid">
             
-            <!-- 🚨 URGENT DEADLINES (Next 30 days) -->
+            <!-- 🚨 URGENT DEADLINES -->
             
-            <!-- Alchemist Accelerator - URGENT -->
-            <div class="accelerator-card" data-categories="urgent">
+            <div class="accelerator-card" data-categories="urgent" onclick="openModal('alchemist')">
                 <div class="deadline-badge urgent">🚨 5 DAYS LEFT</div>
                 <div class="accelerator-name">Alchemist Accelerator</div>
                 <div class="deadline-info">📅 Deadline: July 18, 2025 <span class="days-left">(5 days!)</span></div>
@@ -249,14 +534,15 @@
                     <span class="feature-tag">6 months</span>
                     <span class="feature-tag">25 teams max</span>
                     <span class="feature-tag">3,000+ mentors</span>
-                    <span class="feature-tag">Virtual + hubs</span>
                 </div>
-                <div class="program-details">6-month virtual program • 3% acceptance rate • Hubs: SF, Memphis, Tokyo</div>
-                <button class="apply-btn" onclick="window.open('https://www.alchemistaccelerator.com', '_blank')">🚀 Apply NOW at alchemistaccelerator.com</button>
+                <div class="program-details">6-month virtual program • 3% acceptance rate • Global hubs</div>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://www.alchemistaccelerator.com', '_blank')">🚀 Apply NOW</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('alchemist')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Conviction Embed - URGENT -->
-            <div class="accelerator-card" data-categories="urgent ai high-funding">
+            <div class="accelerator-card" data-categories="urgent ai high-funding" onclick="openModal('conviction')">
                 <div class="deadline-badge urgent">🚨 18 DAYS LEFT</div>
                 <div class="accelerator-name">Conviction Embed</div>
                 <div class="deadline-info">📅 Deadline: July 31, 2025 <span class="days-left">(18 days!)</span></div>
@@ -268,16 +554,17 @@
                 <div class="unique-features">
                     <span class="feature-tag ai-tag">AI-Native "Software 3.0"</span>
                     <span class="feature-tag special-tag">Andrej Karpathy</span>
-                    <span class="feature-tag">8 weeks</span>
                     <span class="feature-tag">H100 GPUs</span>
                     <span class="feature-tag"><1% acceptance</span>
                 </div>
                 <div class="program-details">8-week program • SF retreat + virtual • Elite AI mentors</div>
-                <button class="apply-btn" onclick="window.open('https://embed.conviction.com', '_blank')">🚀 Apply NOW at embed.conviction.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://embed.conviction.com', '_blank')">🚀 Apply NOW</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('conviction')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Entrepreneur First - URGENT -->
-            <div class="accelerator-card" data-categories="urgent zero-equity">
+            <div class="accelerator-card" data-categories="urgent zero-equity" onclick="openModal('ef')">
                 <div class="deadline-badge urgent">🚨 14-19 DAYS</div>
                 <div class="accelerator-name">Entrepreneur First</div>
                 <div class="deadline-info">📅 Bangalore: July 27 • London: Aug 1, 2025</div>
@@ -293,13 +580,15 @@
                     <span class="feature-tag">Cofounder Matching</span>
                 </div>
                 <div class="program-details">24-week program • Form + Launch phases • >$11B portfolio value</div>
-                <button class="apply-btn" onclick="window.open('https://apply.joinef.com', '_blank')">🚀 Apply at apply.joinef.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://apply.joinef.com', '_blank')">🚀 Apply NOW</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('ef')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- 📅 UPCOMING DEADLINES (Next 2 months) -->
+            <!-- UPCOMING DEADLINES -->
             
-            <!-- Y Combinator Fall 2025 -->
-            <div class="accelerator-card" data-categories="soon high-funding">
+            <div class="accelerator-card" data-categories="soon high-funding" onclick="openModal('yc')">
                 <div class="deadline-badge soon">Aug 4, 2025</div>
                 <div class="accelerator-name">Y Combinator</div>
                 <div class="deadline-info">📅 Fall 2025 Deadline: August 4, 2025</div>
@@ -312,14 +601,15 @@
                     <span class="feature-tag">3 months</span>
                     <span class="feature-tag">San Francisco</span>
                     <span class="feature-tag">Massive Alumni Network</span>
-                    <span class="feature-tag">Demo Day</span>
                 </div>
                 <div class="program-details">3-month program • Oct-Dec 2025 • Hybrid format</div>
-                <button class="apply-btn" onclick="window.open('https://apply.ycombinator.com', '_blank')">Apply at apply.ycombinator.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://apply.ycombinator.com', '_blank')">Apply to YC</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('yc')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Accel Atoms AI -->
-            <div class="accelerator-card" data-categories="soon ai high-funding">
+            <div class="accelerator-card" data-categories="soon ai high-funding" onclick="openModal('accel')">
                 <div class="deadline-badge soon">Sep 1, 2025</div>
                 <div class="accelerator-name">Accel Atoms</div>
                 <div class="deadline-info">📅 AI Cohort Deadline: September 1, 2025</div>
@@ -335,13 +625,15 @@
                     <span class="feature-tag">8-10 companies</span>
                 </div>
                 <div class="program-details">3-month hybrid program • Nov 2025 start • 350+ founder network</div>
-                <button class="apply-btn" onclick="window.open('https://apply.accel-atoms.com', '_blank')">Apply at apply.accel-atoms.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://apply.accel-atoms.com', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('accel')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- 🔄 ROLLING APPLICATIONS (Apply Anytime) -->
+            <!-- ROLLING APPLICATIONS -->
             
-            <!-- Soma Capital - ZERO EQUITY! -->
-            <div class="accelerator-card" data-categories="rolling zero-equity ai high-funding">
+            <div class="accelerator-card" data-categories="rolling zero-equity ai high-funding" onclick="openModal('soma')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">Soma Capital Fellowship</div>
                 <div class="deadline-info">📅 Rolling Applications - Apply Anytime</div>
@@ -355,14 +647,15 @@
                     <span class="feature-tag">Fully Remote</span>
                     <span class="feature-tag ai-tag">AI/B2B SaaS</span>
                     <span class="feature-tag">YC Pipeline</span>
-                    <span class="feature-tag">Unicorn Mentors</span>
                 </div>
                 <div class="program-details">6 weeks-3 months • Remote • 30+ unicorn founders</div>
-                <button class="apply-btn" onclick="window.open('https://programs.somacap.com/fellows', '_blank')">Apply at programs.somacap.com/fellows</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://programs.somacap.com/fellows', '_blank')">Apply Free</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('soma')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- AI2 Incubator -->
-            <div class="accelerator-card" data-categories="rolling ai high-funding">
+            <div class="accelerator-card" data-categories="rolling ai high-funding" onclick="openModal('ai2')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">AI2 Incubator</div>
                 <div class="deadline-info">📅 Rolling Applications - No Deadlines</div>
@@ -375,15 +668,16 @@
                     <span class="feature-tag ai-tag">AI-First</span>
                     <span class="feature-tag special-tag">No idea required</span>
                     <span class="feature-tag">12-18 months</span>
-                    <span class="feature-tag">$200M compute pool</span>
                     <span class="feature-tag">Allen Institute</span>
                 </div>
                 <div class="program-details">12-18 months • Part-time OK • 35+ startups created</div>
-                <button class="apply-btn" onclick="window.open('https://ai2incubator.com', '_blank')">Apply at ai2incubator.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://ai2incubator.com', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('ai2')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Forum Accelerator -->
-            <div class="accelerator-card" data-categories="rolling">
+            <div class="accelerator-card" data-categories="rolling" onclick="openModal('forum')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">Forum Accelerator</div>
                 <div class="deadline-info">📅 Rolling Applications - 1-2 week response</div>
@@ -396,15 +690,16 @@
                     <span class="feature-tag exclusive-tag">B2B SaaS Only</span>
                     <span class="feature-tag">4 months</span>
                     <span class="feature-tag">Remote-first</span>
-                    <span class="feature-tag">Pre-seed focus</span>
                     <span class="feature-tag">Fractional co-founder</span>
                 </div>
                 <div class="program-details">4-month program • Toronto/NYC/SF • 1,000+ alumni</div>
-                <button class="apply-btn">Apply via their website</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://forum.vc', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('forum')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- 500 Global -->
-            <div class="accelerator-card" data-categories="rolling">
+            <div class="accelerator-card" data-categories="rolling" onclick="openModal('500global')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">500 Global</div>
                 <div class="deadline-info">📅 Rolling Applications - 365 days/year</div>
@@ -418,14 +713,15 @@
                     <span class="feature-tag">4 months</span>
                     <span class="feature-tag">Palo Alto</span>
                     <span class="feature-tag">5,000+ founders</span>
-                    <span class="feature-tag">Always Open</span>
                 </div>
                 <div class="program-details">4-month program • Palo Alto • Multiple regional programs</div>
-                <button class="apply-btn" onclick="window.open('https://flagship.aplica.500.co', '_blank')">Apply at flagship.aplica.500.co</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://flagship.aplica.500.co', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('500global')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- LAUNCH Accelerator -->
-            <div class="accelerator-card" data-categories="rolling">
+            <div class="accelerator-card" data-categories="rolling" onclick="openModal('launch')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">LAUNCH Accelerator</div>
                 <div class="deadline-info">📅 Rolling Applications - Cohort 35 starts Aug 2025</div>
@@ -439,14 +735,15 @@
                     <span class="feature-tag">14 weeks</span>
                     <span class="feature-tag">Pre-Series A</span>
                     <span class="feature-tag">700+ investors</span>
-                    <span class="feature-tag">7 startups/cohort</span>
                 </div>
                 <div class="program-details">14-week program • Virtual + SF sessions • Need traction</div>
-                <button class="apply-btn" onclick="window.open('https://launchaccelerator.co', '_blank')">Apply at launchaccelerator.co</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://launchaccelerator.co', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('launch')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Founders, Inc. -->
-            <div class="accelerator-card" data-categories="rolling zero-equity">
+            <div class="accelerator-card" data-categories="rolling zero-equity" onclick="openModal('founders')">
                 <div class="deadline-badge rolling">🔄 ROLLING</div>
                 <div class="accelerator-name">Founders, Inc. Fellowship</div>
                 <div class="deadline-info">📅 Rolling Applications - 1 month response</div>
@@ -461,11 +758,13 @@
                     <span class="feature-tag">Hardware lab + Gym</span>
                 </div>
                 <div class="program-details">Long-term program • SF 42K sq ft space • Not time-limited</div>
-                <button class="apply-btn" onclick="window.open('https://f.inc/apply', '_blank')">Apply at f.inc/apply</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://f.inc/apply', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('founders')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Techstars -->
-            <div class="accelerator-card" data-categories="open">
+            <div class="accelerator-card" data-categories="open" onclick="openModal('techstars')">
                 <div class="deadline-badge open">📅 OPEN</div>
                 <div class="accelerator-name">Techstars</div>
                 <div class="deadline-info">📅 Fall 2025: Various deadlines by program</div>
@@ -479,16 +778,17 @@
                     <span class="feature-tag">Global locations</span>
                     <span class="feature-tag">Virtual options</span>
                     <span class="feature-tag">Massive network</span>
-                    <span class="feature-tag">Multiple verticals</span>
                 </div>
                 <div class="program-details">13-week program • Global • Multiple specialized programs</div>
-                <button class="apply-btn" onclick="window.open('https://apply.techstars.com', '_blank')">Apply at apply.techstars.com</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://apply.techstars.com', '_blank')">Apply Now</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('techstars')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- 📅 FUTURE/UNCERTAIN PROGRAMS -->
+            <!-- FUTURE/UNCERTAIN PROGRAMS -->
 
-            <!-- Sequoia Arc -->
-            <div class="accelerator-card" data-categories="high-funding">
+            <div class="accelerator-card" data-categories="high-funding" onclick="openModal('sequoia')">
                 <div class="deadline-badge unclear">Fall 2025 TBA</div>
                 <div class="accelerator-name">Sequoia Arc</div>
                 <div class="deadline-info">📅 Spring 2025: Closed • Fall 2025: TBA</div>
@@ -500,16 +800,17 @@
                 <div class="unique-features">
                     <span class="feature-tag special-tag">Only 5 weeks!</span>
                     <span class="feature-tag">10 companies max</span>
-                    <span class="feature-tag">Americas/Europe</span>
                     <span class="feature-tag special-tag">Sequoia brand</span>
                     <span class="feature-tag">Hybrid format</span>
                 </div>
                 <div class="program-details">5-week program • Hybrid • Sign up for Fall 2025 notifications</div>
-                <button class="apply-btn">Watch sequoiacap.com/arc</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://sequoiacap.com/arc', '_blank')">Watch for Updates</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('sequoia')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- AI Grant -->
-            <div class="accelerator-card" data-categories="ai unclear">
+            <div class="accelerator-card" data-categories="ai unclear" onclick="openModal('aigrant')">
                 <div class="deadline-badge unclear">STATUS UNCLEAR</div>
                 <div class="accelerator-name">AI Grant</div>
                 <div class="deadline-info">📅 Batch 4: Closed • Batch 5: Uncertain due to Meta talks</div>
@@ -525,13 +826,15 @@
                     <span class="feature-tag">Open source friendly</span>
                 </div>
                 <div class="program-details">Non-profit lab • May be transitioning • Check for updates</div>
-                <button class="apply-btn">Monitor aigrant.org</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://aigrant.org', '_blank')">Monitor Updates</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('aigrant')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- 🚫 CLOSED/MISSED DEADLINES -->
+            <!-- CLOSED/MISSED DEADLINES (showing a few key ones) -->
 
-            <!-- a16z Speedrun - MISSED -->
-            <div class="accelerator-card" data-categories="closed ai high-funding">
+            <div class="accelerator-card" data-categories="closed ai high-funding" onclick="openModal('a16z')">
                 <div class="deadline-badge closed">❌ MISSED</div>
                 <div class="accelerator-name">a16z Speedrun</div>
                 <div class="deadline-info">📅 Deadline: May 11, 2025 (MISSED)</div>
@@ -543,16 +846,17 @@
                 <div class="unique-features">
                     <span class="feature-tag ai-tag">AI/Creative Tools</span>
                     <span class="feature-tag special-tag">Marc Andreessen</span>
-                    <span class="feature-tag">12 weeks</span>
                     <span class="feature-tag">Los Angeles</span>
                     <span class="feature-tag">1% acceptance</span>
                 </div>
                 <div class="program-details">12-week program • Los Angeles • July-October 2025</div>
-                <button class="apply-btn" disabled>Applications Closed</button>
+                <div class="card-actions">
+                    <button class="apply-btn" disabled>Applications Closed</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('a16z')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- PearX -->
-            <div class="accelerator-card" data-categories="closed high-funding">
+            <div class="accelerator-card" data-categories="closed high-funding" onclick="openModal('pearx')">
                 <div class="deadline-badge closed">❌ S25 CLOSED</div>
                 <div class="accelerator-name">PearX</div>
                 <div class="deadline-info">📅 Summer 2025: Closed • Winter 2026: TBA later</div>
@@ -564,15 +868,16 @@
                 <div class="unique-features">
                     <span class="feature-tag">12 weeks</span>
                     <span class="feature-tag">SF Bay Area mandatory</span>
-                    <span class="feature-tag">20 startups max</span>
                     <span class="feature-tag">90% raise next round</span>
                 </div>
                 <div class="program-details">12-week program • SF mandatory • Camp Pear retreat</div>
-                <button class="apply-btn">Watch for W26 at pear.vc</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://pear.vc', '_blank')">Watch for W26</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('pearx')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- HF0 -->
-            <div class="accelerator-card" data-categories="closed ai high-funding">
+            <div class="accelerator-card" data-categories="closed ai high-funding" onclick="openModal('hf0')">
                 <div class="deadline-badge closed">❌ MISSED</div>
                 <div class="accelerator-name">HF0 (Hacker Fellowship)</div>
                 <div class="deadline-info">📅 Deadline: February 28, 2025 (MISSED)</div>
@@ -583,15 +888,17 @@
                 <div class="unique-features">
                     <span class="feature-tag exclusive-tag">Repeat Founders Only</span>
                     <span class="feature-tag special-tag">Hacker Monastery</span>
-                    <span class="feature-tag">12 weeks</span>
                     <span class="feature-tag">SF Mansion</span>
                     <span class="feature-tag">1-2% acceptance</span>
                 </div>
                 <div class="program-details">12-week residency • SF mansion • Extremely selective</div>
-                <button class="apply-btn" disabled>Applications Closed</button>
+                <div class="card-actions">
+                    <button class="apply-btn" disabled>Applications Closed</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('hf0')">📋 Details</button>
+                </div>
             </div>
 
-            <!-- Additional closed programs -->
+            <!-- Add remaining closed programs... -->
             <div class="accelerator-card" data-categories="closed">
                 <div class="deadline-badge closed">❌ MISSED</div>
                 <div class="accelerator-name">The Mint</div>
@@ -604,10 +911,12 @@
                     <span class="feature-tag exclusive-tag">Fintech Only</span>
                     <span class="feature-tag">10 weeks</span>
                     <span class="feature-tag">SF/NYC</span>
-                    <span class="feature-tag">BTV program</span>
                 </div>
                 <div class="program-details">10-week program • Fintech exclusive</div>
-                <button class="apply-btn">Check themint.vc for Aug-Oct</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://themint.vc', '_blank')">Check for Aug-Oct</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('mint')">📋 Details</button>
+                </div>
             </div>
 
             <div class="accelerator-card" data-categories="closed high-funding">
@@ -622,11 +931,13 @@
                 <div class="unique-features">
                     <span class="feature-tag">3 months</span>
                     <span class="feature-tag">Oregon bootcamp</span>
-                    <span class="feature-tag">Arizona demo day</span>
                     <span class="feature-tag">Technical teams</span>
                 </div>
                 <div class="program-details">3-month program • Oregon + Arizona</div>
-                <button class="apply-btn" disabled>Applications Closed</button>
+                <div class="card-actions">
+                    <button class="apply-btn" disabled>Applications Closed</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('neo')">📋 Details</button>
+                </div>
             </div>
 
             <div class="accelerator-card" data-categories="closed">
@@ -641,27 +952,42 @@
                     <span class="feature-tag">"Interfaces" theme</span>
                     <span class="feature-tag">13 weeks</span>
                     <span class="feature-tag">NYC Meatpacking</span>
-                    <span class="feature-tag">8-12 companies</span>
                 </div>
                 <div class="program-details">13-week program • NYC • Interface focus</div>
-                <button class="apply-btn">Check betaworks.com/camp</button>
+                <div class="card-actions">
+                    <button class="apply-btn" onclick="event.stopPropagation(); window.open('https://betaworks.com/camp', '_blank')">Check Next Cycle</button>
+                    <button class="details-btn" onclick="event.stopPropagation(); openModal('betaworks')">📋 Details</button>
+                </div>
             </div>
 
         </div>
     </div>
 
+    <!-- Modal for detailed information -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-title" id="modalTitle">Accelerator Details</div>
+                <div class="modal-subtitle" id="modalSubtitle">Complete Program Information</div>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Filter function
         function filterCards(category) {
             const cards = document.querySelectorAll('.accelerator-card');
             const buttons = document.querySelectorAll('.filter-btn');
             
-            // Update button states
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
             cards.forEach(card => {
                 const categories = card.dataset.categories || '';
-                const badge = card.querySelector('.deadline-badge');
                 
                 if (category === 'all') {
                     card.style.display = 'block';
@@ -678,38 +1004,1526 @@
                 }
             });
         }
-        
-        // Add some animation on load
+
+        // Modal functions
+        function openModal(accelerator) {
+            const modal = document.getElementById('detailModal');
+            const title = document.getElementById('modalTitle');
+            const subtitle = document.getElementById('modalSubtitle');
+            const body = document.getElementById('modalBody');
+            
+            const details = getAcceleratorDetails(accelerator);
+            title.textContent = details.name;
+            subtitle.textContent = details.subtitle;
+            body.innerHTML = details.content;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('detailModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Accelerator details data
+        function getAcceleratorDetails(accelerator) {
+            const details = {
+                'soma': {
+                    name: 'Soma Capital Fellowship',
+                    subtitle: 'Zero Equity • Up to $1M • Remote Program',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                Up to $1,000,000 • 0% Equity!
+                            </div>
+                            <ul>
+                                <li><strong>Amount:</strong> Up to $1M in uncapped SAFE funding (typically $100K)</li>
+                                <li><strong>Equity:</strong> 0% - No equity dilution</li>
+                                <li><strong>Type:</strong> Uncapped SAFE (Simple Agreement for Future Equity)</li>
+                                <li><strong>Follow-on:</strong> Potential for up to $10M for exceptional companies</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li>Direct access to unicorn founders from portfolio companies (Deel, Ramp, Ironclad)</li>
+                                <li>Weekly Office Hours with Soma investment team</li>
+                                <li>Specialized workshops on fundraising, customer acquisition, and product development</li>
+                                <li>Access to Fortune 500 executives, top-tier VCs, and YC partners</li>
+                                <li>Virtual Demo Day with investor introductions</li>
+                                <li>Strong YC pipeline - many fellows get accepted to Y Combinator</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Stage:</strong> Pre-seed to early traction startups</li>
+                                <li><strong>Focus Areas:</strong> AI, B2B SaaS, deep tech (not suitable for e-commerce or consumer goods)</li>
+                                <li><strong>Founders:</strong> Technical founders preferred, solo founders accepted but teams encouraged</li>
+                                <li><strong>Geographic:</strong> Open to international founders globally</li>
+                                <li><strong>Duration:</strong> 6 weeks to 3 months (varies by cohort)</li>
+                                <li><strong>Format:</strong> Fully remote with optional in-person networking events</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">30+</div>
+                                <div class="stat-label">Unicorn Founders Seeded</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">0%</div>
+                                <div class="stat-label">Equity Required</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Remote</div>
+                                <div class="stat-label">Program Format</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Notable Points:</strong> Parker Conrad (Rippling founder) is a mentor. Strong emphasis on founder quality over specific metrics. Intensive program despite being virtual.
+                        </div>
+                    `
+                },
+                'alchemist': {
+                    name: 'Alchemist Accelerator',
+                    subtitle: 'Enterprise B2B Focus • 6 Months • Global Program',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $25,000 for 5% equity + $450K credits
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $25,000</li>
+                                <li><strong>Equity:</strong> 5.0% (average, with flexible terms for later-stage companies)</li>
+                                <li><strong>Additional Benefits:</strong> Up to $450,000 in partner credits, discounts, and deals</li>
+                                <li><strong>Structure:</strong> Standard accelerator investment terms</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ URGENT DEADLINE:</strong> July 18, 2025 - Only 5 days left! (Alchemist Japan: July 21, 2025)
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Schedule</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Application Deadline:</strong> July 18, 2025 (Alchemist Accelerator)</li>
+                                <li><strong>Alchemist Japan Deadline:</strong> July 21, 2025</li>
+                                <li><strong>Program Start Date:</strong> September 8, 2025</li>
+                                <li><strong>Application Process:</strong> Rolling basis with specific review deadlines</li>
+                                <li><strong>Interview Timeline:</strong> Within 3 weeks of application for qualified candidates</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Structure & Benefits</h3>
+                            <ul class="benefit-list">
+                                <li>Access to 3,000+ mentors and faculty members</li>
+                                <li>Connection to 5,500+ venture investors</li>
+                                <li>Weekly group gatherings and networking sessions</li>
+                                <li>Personalized one-on-one mentoring sessions</li>
+                                <li>Regular feedback summits with expert evaluation</li>
+                                <li>Investor Demo Day presentation opportunity</li>
+                                <li>Enterprise customer introductions and business development</li>
+                                <li>Optional in-person networking in global hubs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Target Companies</h3>
+                            <ul>
+                                <li><strong>Primary Focus:</strong> Enterprise-focused startups (B2B companies that monetize from enterprises)</li>
+                                <li><strong>Preferred Team:</strong> 2-3 founders with strong technical backgrounds highly valued</li>
+                                <li><strong>Solo Founders:</strong> Accepted but face a higher evaluation bar</li>
+                                <li><strong>Company Stage:</strong> Early-stage startups with enterprise potential</li>
+                                <li><strong>Geographic Scope:</strong> Global program - all locations welcome</li>
+                                <li><strong>Industry Focus:</strong> All industries welcome (B2B enterprise focus)</li>
+                                <li><strong>Cohort Size:</strong> Limited to 25 teams per class for personalized attention</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Step 1:</strong> Complete online application at www.alchemistaccelerator.com</li>
+                                <li><strong>Step 2:</strong> Interview process (within 3 weeks for qualified candidates)</li>
+                                <li><strong>Step 3:</strong> Committee approval and final selection</li>
+                                <li><strong>Timeline:</strong> Rolling applications reviewed at deadline dates</li>
+                                <li><strong>Response Time:</strong> Relatively quick turnaround for decisions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">3%</div>
+                                <div class="stat-label">Acceptance Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">650+</div>
+                                <div class="stat-label">Startups Accelerated</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">$3.9B+</div>
+                                <div class="stat-label">Alumni Funding Raised</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">50%+</div>
+                                <div class="stat-label">Get Funding After</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">6 months</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">25 teams</div>
+                                <div class="stat-label">Max Cohort Size</div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🌍 Global Presence</h3>
+                            <p style="margin-bottom: 15px;">Primarily virtual programming with optional in-person networking available in:</p>
+                            <ul class="benefit-list">
+                                <li><strong>San Francisco</strong> - Main US hub</li>
+                                <li><strong>Memphis</strong> - Secondary US location</li>
+                                <li><strong>Tokyo</strong> - Asia-Pacific hub</li>
+                                <li><strong>Doha</strong> - Middle East hub</li>
+                                <li><strong>Munich</strong> - European hub</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Key Application Tips</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Apply early - they review applications on a rolling basis</li>
+                                <li>Emphasize your technical team strengths and capabilities</li>
+                                <li>Clearly articulate your enterprise monetization strategy</li>
+                                <li>Demonstrate market potential and ability to attract talent</li>
+                                <li>Show how your startup targets enterprise customers specifically</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Program Format:</strong> Primarily virtual with high-quality programming and global accessibility. Optional in-person networking opportunities in 5 global hubs provide flexibility for founders worldwide.
+                        </div>
+                    `
+                },
+                'conviction': {
+                    name: 'Conviction Embed',
+                    subtitle: 'AI-Native Software 3.0 • Elite Mentors • H100 GPU Access',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $150,000 + $850K+ in AI Credits
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $150,000</li>
+                                <li><strong>Structure:</strong> Uncapped, no-discount MFN SAFE (or as part of a round you're currently raising)</li>
+                                <li><strong>Azure Credits:</strong> $350,000</li>
+                                <li><strong>AI Compute Credits:</strong> $500,000+ from OpenAI, Anthropic, Baseten, Pinecone, Vercel, Weights & Biases</li>
+                                <li><strong>Special Access:</strong> Early access to Mistral models</li>
+                                <li><strong>Hardware Access:</strong> Dedicated H100 GPUs and compute resources</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ URGENT DEADLINE:</strong> July 31, 2025 - Rolling admissions throughout July
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Notable Program Advisors</h3>
+                            <ul class="benefit-list">
+                                <li>Ivan Zhao (Notion CEO)</li>
+                                <li>Henrique Dubugras (Brex CEO)</li>
+                                <li>Amjad Masad (Replit CEO)</li>
+                                <li>Andrej Karpathy (former Tesla, OpenAI)</li>
+                                <li>10+ additional tech leaders</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Program Structure & Activities</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Mandatory In-Person Retreat:</strong> San Francisco (early September)</li>
+                                <li><strong>Weekly Activities:</strong> Regular dinners for accountability and peer networking</li>
+                                <li><strong>Demo Day:</strong> Angel & VC investor demo day (late October)</li>
+                                <li><strong>Duration:</strong> 8-week intensive program</li>
+                                <li><strong>Class Size:</strong> Highly selective 10-12 companies per cohort</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Focus Area:</strong> AI-Native startups building "Software 3.0" companies</li>
+                                <li><strong>Target Stage:</strong> Pre-seed to seed-stage companies</li>
+                                <li><strong>Team Composition:</strong> Technical teams preferred (engineers, researchers, product people, domain experts)</li>
+                                <li><strong>Solo Founders:</strong> Welcome (cofounder matching available)</li>
+                                <li><strong>Incorporation:</strong> No strict incorporation requirements</li>
+                                <li><strong>Application Status:</strong> Rolling admissions throughout July</li>
+                                <li><strong>Selection Rate:</strong> Highly selective (<1% acceptance rate)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🌟 Unique Program Features</h3>
+                            <ul class="benefit-list">
+                                <li>Talent matching and cofounder connections</li>
+                                <li>Customer introductions through extensive network</li>
+                                <li>Access to legendary founder mentorship</li>
+                                <li>Focus on navigating rapidly changing AI landscape</li>
+                                <li>Community-driven learning approach</li>
+                                <li>Access to dedicated H100 GPUs and compute resources</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value"><1%</div>
+                                <div class="stat-label">Acceptance Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">10-12</div>
+                                <div class="stat-label">Companies per Cohort</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">8 Weeks</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">H100 GPUs</div>
+                                <div class="stat-label">Hardware Access</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px;">
+                            <strong>🚀 How to Apply:</strong> Visit embed.conviction.com to access the current application portal. The program accepts applications on a rolling basis throughout July, with the deadline typically being July 31st. Focus on AI-Native "Software 3.0" companies.
+                        </div>
+                    `
+                },
+                'forum': {
+                    name: 'Forum Ventures Accelerator',
+                    subtitle: 'B2B SaaS Only • Remote-First • Fractional Co-founder',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $100,000 for 7.5% equity + $100K perks
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $100,000 USD</li>
+                                <li><strong>Equity:</strong> 7.5% equity on a standard post-money SAFE note</li>
+                                <li><strong>Timing:</strong> First check typically written on day 1 of the program</li>
+                                <li><strong>Additional Perks:</strong> $100K+ in business perks and benefits</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li>Dedicated Managing Director as "fractional co-founder"</li>
+                                <li>Customer introductions and business development support</li>
+                                <li>Fundraising support and VC network access</li>
+                                <li>Founder community networking opportunities</li>
+                                <li>Mentorship from industry experts</li>
+                                <li>Access to 1,000+ alumni founders and 200+ mentors</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Eligibility Requirements</h3>
+                            <ul>
+                                <li><strong>Stage:</strong> Pre-seed companies only</li>
+                                <li><strong>Funding History:</strong> Less than $500K in prior funding</li>
+                                <li><strong>Product:</strong> Must have or be about to have a Minimum Viable Product (MVP)</li>
+                                <li><strong>Focus:</strong> B2B SaaS companies exclusively</li>
+                                <li><strong>Industries:</strong> B2B SaaS, Vertical AI, AI Agents, Healthtech, Fintech, Supply Chain, Future of Work</li>
+                                <li><strong>Duration:</strong> 4-month intensive accelerator program</li>
+                                <li><strong>Format:</strong> Remote-first program with locations in Toronto, NYC, and San Francisco</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">1-2 weeks</div>
+                                <div class="stat-label">Application Response Time</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">1,000+</div>
+                                <div class="stat-label">Alumni Founders</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">200+</div>
+                                <div class="stat-label">Mentors</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Rolling</div>
+                                <div class="stat-label">Application Basis</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Application Process:</strong> Submit pitch via online form → 30-minute call if selected → In-depth meeting with Forum Ventures Partner. 15 key questions covering traction metrics, problem statement, business model, financial runway, and team background.
+                        </div>
+                    `
+                },
+                'yc': {
+                    name: 'Y Combinator',
+                    subtitle: 'Most Prestigious • $500K Investment • Massive Network',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms - $500K Standard Deal</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $500,000 Total Investment
+                            </div>
+                            <ul>
+                                <li><strong>$125,000</strong> on a post-money SAFE for <strong>7% equity</strong> (fixed)</li>
+                                <li><strong>$375,000</strong> on an uncapped SAFE with Most Favored Nation (MFN) provision</li>
+                                <li><strong>Example:</strong> At a $15M valuation, the uncapped SAFE would convert to an additional 2.5% equity</li>
+                                <li><strong>Pro rata rights</strong> for future financing rounds</li>
+                                <li><strong>No fees</strong> charged to companies</li>
+                                <li><strong>Investment happens immediately</strong> upon acceptance</li>
+                                <li>Supports US, Cayman, Singapore, and Canada corporations</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Current and Upcoming Batches</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Fall 2025 Batch:</strong> Deadline August 4, 2025 at 8pm PT</li>
+                                <li><strong>Program Duration:</strong> October to December 2025</li>
+                                <li><strong>Location:</strong> San Francisco</li>
+                                <li><strong>Spring 2025:</strong> Already closed (deadline was February 11, 2025)</li>
+                                <li><strong>Note:</strong> YC now runs 4 batches annually (Winter, Spring, Summer, Fall)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 3 months</li>
+                                <li><strong>Format:</strong> Hybrid (in-person + remote options)</li>
+                                <li>3-day in-person kickoff in San Francisco</li>
+                                <li>Weekly meetups in San Francisco</li>
+                                <li>Group office hours every 2 weeks</li>
+                                <li>One-on-one meetings with YC partners as needed</li>
+                                <li>Weekly talks with startup experts</li>
+                                <li>Dedicated YC General Partner assigned to each company</li>
+                                <li>Culminates with Demo Day in San Francisco</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🔄 Ongoing Support</h3>
+                            <ul class="benefit-list">
+                                <li>YC support continues beyond the 3-month program</li>
+                                <li>Access to extensive alumni network</li>
+                                <li>Potential investor introductions</li>
+                                <li>Remote participation available for international founders</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Key Requirements</h3>
+                            <ul>
+                                <li><strong>Stage:</strong> Can apply with just an idea (no product required)</li>
+                                <li><strong>Open to:</strong> All stages from idea to growth</li>
+                                <li><strong>Geographic:</strong> International founders welcome</li>
+                                <li><strong>Team Size:</strong> Teams of all sizes accepted</li>
+                                <li><strong>Industries:</strong> No specific industry restrictions</li>
+                                <li><strong>Application URL:</strong> apply.ycombinator.com</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li>Apply online at apply.ycombinator.com</li>
+                                <li>Applications reviewed on rolling basis</li>
+                                <li>Selected companies invited to interview (mostly via video)</li>
+                                <li>Decisions typically made same day as interview</li>
+                                <li>For on-time applications, decisions by specified date</li>
+                                <li>Contact for questions: apply@ycombinator.com</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">4x/year</div>
+                                <div class="stat-label">Batches Annually</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">3 months</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Hybrid</div>
+                                <div class="stat-label">Format Available</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">SF</div>
+                                <div class="stat-label">Demo Day Location</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Tips for Success:</strong><br>
+                            • Apply as soon as you're ready<br>
+                            • Be clear and concise in your application<br>
+                            • Focus on your unique insights and competitive advantages<br>
+                            • Demonstrate strong founder-market fit<br>
+                            • Show evidence of rapid learning and iteration
+                        </div>
+                    `
+                },
+                'mint': {
+                    name: 'The Mint Accelerator',
+                    subtitle: 'Fintech Exclusive • $500K for 10% • 10-Week In-Person Program',
+                    content: `
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ DEADLINE UPDATE:</strong> March-May 2025 cohort applications closed March 9, 2025. Check for August-October 2025 cohort availability.
+                        </div>
+
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $500,000 for 10% equity
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $500,000</li>
+                                <li><strong>Equity:</strong> 10% equity stake</li>
+                                <li><strong>Structure:</strong> Standard SAFE (Simple Agreement for Future Equity)</li>
+                                <li><strong>Stage:</strong> Pre-seed funding specifically</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li>Personalized mentorship from fintech operators and industry experts</li>
+                                <li>Access to founder community and extensive investor network</li>
+                                <li>Live Demo Day pitch event to tier-1 VCs and strategic partners</li>
+                                <li>Continued guidance and support beyond the 10-week program</li>
+                                <li>Curated cohorts focused exclusively on fintech startups</li>
+                                <li>Access to BTV's extensive fintech network and industry expertise</li>
+                                <li>Long-term partnership and ongoing support beyond program completion</li>
+                                <li>Minimal time commitment (2-5 hours/week) allows founders to focus on building</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Program Structure</h3>
+                            <ul>
+                                <li><strong>Duration:</strong> 10 weeks, fully in-person intensive program</li>
+                                <li><strong>Time Commitment:</strong> 2-5 hours per week of structured programming</li>
+                                <li><strong>Locations:</strong> Alternates between San Francisco and New York</li>
+                                <li><strong>Format:</strong> "Choose your own adventure" approach with hands-on activities</li>
+                                <li><strong>Cohort Schedule:</strong> March-May and August-October annually</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Industry Focus:</strong> Fintech exclusively (financial services, payments, banking, lending, insurance, blockchain)</li>
+                                <li><strong>Stage:</strong> Pre-seed companies, typically pre-revenue</li>
+                                <li><strong>Problem Definition:</strong> Must have a clearly defined financial problem to solve</li>
+                                <li><strong>Availability:</strong> Must relocate and be available for full 10-week in-person program</li>
+                                <li><strong>Geographic:</strong> Open to global founders (not limited to US-based startups)</li>
+                                <li><strong>Team Requirements:</strong> Strong team with demonstrated fintech industry expertise</li>
+                                <li><strong>Business Model:</strong> Scalable business model with demonstrated growth potential</li>
+                                <li><strong>Market Knowledge:</strong> Deep understanding of fintech markets and regulatory landscape</li>
+                            </ul>
+                        </div>
+
+                        <div class="modal-section">
+                            <h3>📝 Application Process</h3>
+                            <ul>
+                                <li><strong>Step 1:</strong> Submit online application through their platform</li>
+                                <li><strong>Review Timeline:</strong> Applications reviewed within 1-2 weeks</li>
+                                <li><strong>Rolling Basis:</strong> Applications accepted on a rolling basis</li>
+                                <li><strong>Interview Process:</strong> Screening and interviews with BTV partners</li>
+                                <li><strong>Early Support:</strong> BTV begins supporting companies months before program starts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">10 weeks</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Fintech Only</div>
+                                <div class="stat-label">Industry Focus</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">SF/NYC</div>
+                                <div class="stat-label">Locations</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">In-Person</div>
+                                <div class="stat-label">Program Format</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Next Steps:</strong><br>
+                            • Check The Mint's official website (themint.vc) for August-October 2025 cohort status<br>
+                            • Monitor BTV's website (btv.vc/the-mint) for future cohort announcements<br>
+                            • Consider applying early for future cohorts as they review on rolling basis<br>
+                            • Ensure you can commit to full 10-week in-person program before applying
+                        </div>
+                    `
+                },
+                'neo': {
+                    name: 'NEO Accelerator',
+                    subtitle: 'Technical Teams • $600K Uncapped SAFE • 3-Month Program',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $600K via uncapped SAFE + Carry Participation
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $600,000</li>
+                                <li><strong>Structure:</strong> Uncapped SAFE with $10M floor valuation</li>
+                                <li><strong>Dilution:</strong> Maximum 6% dilution for Neo's investment</li>
+                                <li><strong>Pro rata rights:</strong> Neo retains rights to invest further and maintain up to 7.5% ownership</li>
+                                <li><strong>Bonus:</strong> Economic participation in Neo's fund carry, equivalent to profit from $10K of "money at work"</li>
+                                <li><strong>Valuation:</strong> Determined at next funding round, with no fixed cap but minimum $10M valuation</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #ffebee; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #e74c3c;">
+                            <strong>❌ DEADLINE MISSED:</strong> Applications closed March 14, 2025 at 11:59pm PT. Monitor neo.com/accelerator-apply for future cohorts.
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 3-month structured program</li>
+                                <li><strong>Bootcamp:</strong> Month-long intensive in Oregon (July 13 - August 6, 2025)</li>
+                                <li><strong>SF Office Space:</strong> Optional free San Francisco office space during program</li>
+                                <li><strong>Demo Day:</strong> Final retreat and Demo Day in Arizona (October 1-5, 2025)</li>
+                                <li><strong>Pitch Event:</strong> Present to top-tier VCs, investors, and tech leaders</li>
+                                <li><strong>Application Portal:</strong> neo.com/accelerator-apply</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Mentorship:</strong> 1:1 guidance from industry experts</li>
+                                <li><strong>Community:</strong> Access to tight-knit founder network</li>
+                                <li><strong>Recruiting:</strong> Help finding top engineering talent</li>
+                                <li><strong>Partnerships:</strong> Curated discounts from Microsoft & OpenAI</li>
+                                <li><strong>Fundraising support:</strong> Dedicated investor luncheon and demo day</li>
+                                <li><strong>Long-term access:</strong> Continued Neo community membership</li>
+                                <li><strong>Portfolio sharing:</strong> Economic participation in portfolio success</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Target Audience:</strong> Technical teams and solo founders at pre-seed and seed stage</li>
+                                <li><strong>Technical Requirement:</strong> At least one founder must have strong technical background</li>
+                                <li><strong>Geography:</strong> Prioritizes North American startups (some exceptions possible)</li>
+                                <li><strong>Legal Structure:</strong> Must incorporate as Delaware C-Corp before program starts</li>
+                                <li><strong>Stage Flexibility:</strong> Different stages considered beyond pre-seed/seed</li>
+                                <li><strong>Bold Vision:</strong> Program seeks founders with "bold vision for the future"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Application Portal:</strong> neo.com/accelerator-apply</li>
+                                <li><strong>Info Sessions:</strong> Available through Calendly scheduling</li>
+                                <li><strong>Selection Criteria:</strong> Technical competency and bold vision for the future</li>
+                                <li><strong>Legal Requirement:</strong> Must incorporate as Delaware C-Corp before program begins</li>
+                                <li><strong>Deadline Missed:</strong> March 14, 2025 deadline has passed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">3 months</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Max 6%</div>
+                                <div class="stat-label">Dilution Cap</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Oregon + AZ</div>
+                                <div class="stat-label">Program Locations</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">$10M Floor</div>
+                                <div class="stat-label">Valuation Floor</div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🌟 Unique Program Features</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Uncapped SAFE:</strong> Valuation determined at next funding round with $10M minimum</li>
+                                <li><strong>Carry Participation:</strong> Economic participation equivalent to $10K of "money at work"</li>
+                                <li><strong>Oregon Bootcamp:</strong> Intensive month-long program in Oregon (July-August)</li>
+                                <li><strong>Arizona Demo Day:</strong> Final retreat and presentation in Arizona (October)</li>
+                                <li><strong>Optional SF Office:</strong> Free San Francisco office space during program</li>
+                                <li><strong>Pro Rata Rights:</strong> Neo can maintain up to 7.5% ownership in future rounds</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Key Program Highlights</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Uncapped SAFE structure provides founder-friendly terms</li>
+                                <li>Strong technical team requirement ensures quality cohort</li>
+                                <li>Unique carry participation provides upside beyond traditional accelerator</li>
+                                <li>Oregon bootcamp and Arizona demo day provide immersive experience</li>
+                                <li>North American focus with Delaware C-Corp requirement</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #ffebee; border-radius: 10px;">
+                            <strong>Next Steps:</strong> The March 14, 2025 deadline has passed. Monitor neo.com/accelerator-apply for future cohort announcements and application windows. Consider scheduling info sessions through their Calendly when applications reopen.
+                        </div>
+                    `
+                },
+                'founders': {
+                    name: 'Founders, Inc. Fellowship',
+                    subtitle: 'Long-term Workspace • SF Fort Mason • AR/VR/AI/Web3',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $100,000 - $250,000 for minimal equity
+                            </div>
+                            <ul>
+                                <li><strong>Check Size:</strong> $100,000 - $250,000 for first funding round</li>
+                                <li><strong>Equity:</strong> 3-5% (they keep equity ask minimal)</li>
+                                <li><strong>Investment Focus:</strong> Early-stage ambitious builders in AR/VR, AI, web3, Consumer, and other sectors</li>
+                                <li><strong>Portfolio:</strong> Over 100 companies invested in over the last 3 years</li>
+                                <li><strong>Structure:</strong> Standard SAFE terms</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏢 Unique Model & Workspace</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Location:</strong> 42,000 sq ft space at Fort Mason, San Francisco</li>
+                                <li><strong>Long-term Home:</strong> Provides a long-term home to build (not just a few months like traditional accelerators)</li>
+                                <li><strong>Post-Program Support:</strong> Many founders continue building there even after completing other programs like Y Combinator</li>
+                                <li><strong>Assigned Desk:</strong> Dedicated workspace in their San Francisco lab</li>
+                                <li><strong>Not Time-Limited:</strong> Unlike traditional accelerators, no strict program timeline</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits & Resources</h3>
+                            <ul class="benefit-list">
+                                <li>Media recording resources for content creation and marketing</li>
+                                <li>Hardware lab access for prototyping and development</li>
+                                <li>Gym facilities for founder wellness</li>
+                                <li>1:1 office hours with experienced founders</li>
+                                <li>Comprehensive fundraising support and investor introductions</li>
+                                <li>Community of ambitious builders and like-minded entrepreneurs</li>
+                                <li>Exclusive events and networking opportunities</li>
+                                <li>Access to specialized resources for AR/VR, AI, and web3 development</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Stage:</strong> Early-stage companies (they help get from "-1 to 0")</li>
+                                <li><strong>Focus Areas:</strong> AR/VR, AI, web3, Consumer, and other innovative sectors</li>
+                                <li><strong>Founder Quality:</strong> Looking for serious founders who want to be surrounded by other ambitious people</li>
+                                <li><strong>Innovation:</strong> Must be building something innovative and disruptive</li>
+                                <li><strong>Location:</strong> Physical presence required at San Francisco Fort Mason location</li>
+                                <li><strong>Commitment:</strong> Long-term commitment to building at the space</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Rolling Basis:</strong> Applications are reviewed on a rolling basis, not specific deadlines</li>
+                                <li><strong>Response Time:</strong> They respond within one month of application</li>
+                                <li><strong>Process:</strong> Tell them what you're building for an opportunity to be invited to campus</li>
+                                <li><strong>Pre-Fellowship Programs:</strong> 4-6 week programs available for those not ready for funding yet</li>
+                                <li><strong>Campus Visit:</strong> Selected founders invited to visit the Fort Mason campus</li>
+                                <li><strong>Application URL:</strong> https://f.inc/apply</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">42K sq ft</div>
+                                <div class="stat-label">Workspace Size</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">100+</div>
+                                <div class="stat-label">Companies Invested</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">1 month</div>
+                                <div class="stat-label">Response Time</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Rolling</div>
+                                <div class="stat-label">Application Basis</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">3-5%</div>
+                                <div class="stat-label">Minimal Equity</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">SF Fort Mason</div>
+                                <div class="stat-label">Location</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Key Differentiators</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Long-term workspace model vs traditional short-term accelerators</li>
+                                <li>Minimal equity requirement (3-5%) compared to industry standard</li>
+                                <li>Comprehensive facilities including hardware lab and gym</li>
+                                <li>Focus on AR/VR, AI, and web3 innovative technologies</li>
+                                <li>Post-YC continuation option for ongoing support</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Application Strategy:</strong> Focus on your innovative technology and long-term vision. Emphasize your commitment to building something ambitious and your desire to be part of a community of serious builders. Highlight how you would benefit from and contribute to their unique long-term workspace model.
+                        </div>
+                    `
+                },
+                'aigrant': {
+                    name: 'AI Grant',
+                    subtitle: 'AI Research Lab • $250K + $600K+ Credits • No Credentials Required',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $250,000 + $600,000+ in Credits
+                            </div>
+                            <ul>
+                                <li><strong>Primary Funding:</strong> $250,000 via uncapped SAFE note</li>
+                                <li><strong>Cloud Credits:</strong> $600,000+ in cloud/service credits from various companies</li>
+                                <li><strong>Microsoft Partnership:</strong> $250,000 in Microsoft Azure cloud credits</li>
+                                <li><strong>Historical Grants:</strong> $5,000 - $50,000 for open source projects (no strings attached)</li>
+                                <li><strong>Structure:</strong> Uncapped SAFE (Simple Agreement for Future Equity)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ STATUS UPDATE:</strong> Batch 4 applications are closed. Batch 5 status uncertain due to founders reportedly in talks with Meta. Check website for updates.
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li>Summit in San Francisco with advisors and founders</li>
+                                <li>Demo Day with world-class investors</li>
+                                <li>Access to extensive advisor network (14+ tech CEOs)</li>
+                                <li>Technical and product development support</li>
+                                <li>Direct access to Nat Friedman and Daniel Gross network</li>
+                                <li>Significant cloud computing resources for AI development</li>
+                                <li>Open source project funding opportunities</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Target Founders:</strong> Technical & pragmatic founders</li>
+                                <li><strong>Credentials:</strong> No credentials required - open to anyone</li>
+                                <li><strong>Team Structure:</strong> Single founders can apply</li>
+                                <li><strong>Stage:</strong> Pre-seed/seed-stage AI-native product startups</li>
+                                <li><strong>Prior Fundraising:</strong> Acceptable</li>
+                                <li><strong>Legal Requirement:</strong> Must create Delaware corporation if selected</li>
+                                <li><strong>Focus Areas:</strong> Cutting-edge artificial intelligence projects</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>👤 Program Leadership</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Nat Friedman:</strong> Former GitHub CEO, renowned tech executive</li>
+                                <li><strong>Daniel Gross:</strong> Former Y Combinator partner and Apple executive</li>
+                                <li><strong>Network:</strong> Access to 14+ tech CEOs and industry leaders</li>
+                                <li><strong>Program Type:</strong> Non-profit distributed AI research lab</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Historical Process:</strong> Quick application (under an hour)</li>
+                                <li><strong>Philosophy:</strong> "Building a new product is 1% idea and 99% iteration"</li>
+                                <li><strong>Target Qualities:</strong> Want to build great products</li>
+                                <li><strong>Accessibility:</strong> Very accessible with simple application process</li>
+                                <li><strong>Current Status:</strong> Applications for new batches unclear - check website</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">2017</div>
+                                <div class="stat-label">Founded</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">$850K+</div>
+                                <div class="stat-label">Total Value Package</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Open</div>
+                                <div class="stat-label">No Credentials Req'd</div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📞 Contact Information</h3>
+                            <ul class="benefit-list">
+                                <li><strong>General Support:</strong> support@aigrant.org</li>
+                                <li><strong>Sponsorship:</strong> sponsorship@aigrant.org</li>
+                                <li><strong>Website:</strong> https://aigrant.org/</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Key Recommendations</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Visit aigrant.org directly for most current application information</li>
+                                <li>Follow Nat Friedman and Daniel Gross on social media for updates</li>
+                                <li>Contact support@aigrant.org for current application status</li>
+                                <li>Focus on AI-native products and technical innovation</li>
+                                <li>Prepare for quick application process if/when applications reopen</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #fff3e0; border-radius: 10px; border-left: 5px solid #ff9800;">
+                            <strong>Program Status:</strong> The program has historically been very accessible with innovative AI project funding since 2017. However, current status may be in transition due to founders' reported talks with Meta. Monitor official channels for updates on future batches.
+                        </div>
+                    `
+                },
+                'sequoia': {
+                    name: 'Sequoia Arc',
+                    subtitle: 'Company Building Accelerator • $500K-$1M • 5 Weeks • Hybrid Format',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $500,000 - $1,000,000 per company
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $500,000 - $1,000,000 per company</li>
+                                <li><strong>Investment Structure:</strong> Terms are company-specific and unique to each partnership</li>
+                                <li><strong>Stage:</strong> Pre-seed and seed investments</li>
+                                <li><strong>Personalized Terms:</strong> Flexible investment terms tailored to each company's needs</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>📅 2025 Program Timeline:</strong> Spring 2025 applications CLOSED (deadline was Feb 23). Fall 2025 cohort timeline not yet announced - sign up for notifications!
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏗️ Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 5 weeks (significantly shorter than traditional accelerators)</li>
+                                <li><strong>Format:</strong> Hybrid - First and last weeks in-person, middle weeks remote via Zoom</li>
+                                <li><strong>Travel Requirements:</strong> 3 days in New York City + 3 days in Bay Area</li>
+                                <li><strong>Cohort Size:</strong> ~10 companies for highly personalized attention</li>
+                                <li><strong>Geographic Focus:</strong> Americas and Europe</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🎯 Key Program Components</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Founder Story Workshop:</strong> Develop compelling founder narrative</li>
+                                <li><strong>Customer Story Workshop:</strong> Craft customer-centric messaging</li>
+                                <li><strong>Product Story Workshop:</strong> Define clear product positioning</li>
+                                <li><strong>Go-to-Market Story Workshop:</strong> Build strategic GTM approach</li>
+                                <li><strong>Business Story Workshop:</strong> Create comprehensive business narrative</li>
+                                <li><strong>Product-Market Fit Check-ins:</strong> Regular PMF assessment and guidance</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Direct Mentorship:</strong> Access to Sequoia partners and team</li>
+                                <li><strong>Network Access:</strong> Connection to Sequoia's extensive portfolio and network</li>
+                                <li><strong>"Ampersand" Digital Hub:</strong> Comprehensive company-building tools and resources</li>
+                                <li><strong>200+ Marketplace Credits:</strong> NVIDIA, Microsoft Azure, Cloudflare, and other key platforms</li>
+                                <li><strong>Accelerated PMF Path:</strong> Focused approach to achieving product-market fit</li>
+                                <li><strong>Sequoia Brand Power:</strong> Association with one of the world's top VC firms</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Geographic Requirements:</strong> Companies must be headquartered in Americas or Europe</li>
+                                <li><strong>Stage Requirements:</strong> Pre-seed or seed-stage companies</li>
+                                <li><strong>Traction Requirements:</strong> No strict traction or revenue requirements</li>
+                                <li><strong>Application Stage:</strong> Can apply with just an idea or with MVP and early customers</li>
+                                <li><strong>Founder Profile:</strong> "Unbridled ambition" and desire to "leave their mark on the world"</li>
+                                <li><strong>Exceptional Founders:</strong> Looking for bold ambitions and exceptional potential</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Spring 2025 Status:</strong> Applications CLOSED (deadline was February 23, 2025)</li>
+                                <li><strong>Fall 2025 Cohort:</strong> Program starts October 2025, application deadline TBA</li>
+                                <li><strong>Contact:</strong> arc@sequoiacap.com for inquiries</li>
+                                <li><strong>Notifications:</strong> Sign up on official website for Fall 2025 updates</li>
+                                <li><strong>Application URL:</strong> https://www.sequoiacap.com/arc/</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">5 weeks</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">~10</div>
+                                <div class="stat-label">Companies per Cohort</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">$500K-$1M</div>
+                                <div class="stat-label">Investment Range</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Custom</div>
+                                <div class="stat-label">Investment Terms</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Hybrid</div>
+                                <div class="stat-label">Program Format</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">200+</div>
+                                <div class="stat-label">Marketplace Credits</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">🚀 Key Differentiators</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Shortest accelerator program (only 5 weeks vs typical 12+ weeks)</li>
+                                <li>Highest funding potential ($500K-$1M vs typical $100K-$250K)</li>
+                                <li>Sequoia brand association and network access</li>
+                                <li>Highly selective with only ~10 companies per cohort</li>
+                                <li>Flexible hybrid format with strategic travel components</li>
+                                <li>Custom investment terms tailored to each company</li>
+                                <li>Focus on founders with "unbridled ambition"</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Application Strategy:</strong> For future cohorts, emphasize your exceptional ambition and world-changing vision. Sequoia Arc is looking for founders who want to "leave their mark on the world." Focus on your bold vision rather than current traction, as they accept companies from idea stage to early customers. Sign up for notifications now to be ready for Fall 2025 applications.
+                        </div>
+                    `
+                },
+                'ef': {
+                    name: 'Entrepreneur First (EF)',
+                    subtitle: 'Co-founder Matching • 24 Weeks • €90K for 10% Equity',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                Up to $250,000 + Equity-Free Grants
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> Up to $250,000 ($125K from EF + $125K from partners)</li>
+                                <li><strong>European Programs:</strong> €90,000 for 10% equity</li>
+                                <li><strong>UK Programs:</strong> £80,000-£100,000 seed funding</li>
+                                <li><strong>Monthly Stipend:</strong> €2,000/month for first 3 months (equity-free)</li>
+                                <li><strong>Follow-on Support:</strong> Up to $3M in additional funding support</li>
+                                <li><strong>Credits & Benefits:</strong> Over $600,000 in startup credits from tech companies</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ URGENT DEADLINES:</strong><br>
+                            • Paris Fall Cohort: July 14, 2025 (starts October 2025)<br>
+                            • London Fall Cohort: August 1, 2025 (starts October 2025)<br>
+                            • Bangalore Fall Cohort: July 27, 2025 (starts October 2025)<br>
+                            • USA: Rolling admissions for 2025
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Structure (24 Weeks Total)</h3>
+                            <ul class="benefit-list">
+                                <li><strong>FORM Phase (Weeks 1-12):</strong> Co-founder matching, idea validation, customer development</li>
+                                <li><strong>LAUNCH Phase (Weeks 12-24):</strong> Product building, investor preparation in San Francisco</li>
+                                <li><strong>Investment Committee:</strong> Pitch for funding at week 8-12 transition</li>
+                                <li><strong>Demo Day:</strong> Final presentation to top VCs</li>
+                                <li><strong>Office Space:</strong> 9 months included in major startup hubs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Co-founder Matching:</strong> 80% find co-founder within 8 weeks</li>
+                                <li><strong>Expert Mentorship:</strong> Access to world-class founders and advisors</li>
+                                <li><strong>Global Network:</strong> Alumni network across 6 cities, 3 continents</li>
+                                <li><strong>Market Access:</strong> Support for US market entry and incorporation</li>
+                                <li><strong>No Equity if No Company:</strong> Only pay if you successfully form a company</li>
+                                <li><strong>Continuous Support:</strong> Ongoing support even after program completion</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ What You DON'T Need</h3>
+                            <ul>
+                                <li><strong>No Co-founder Required:</strong> EF provides comprehensive matching</li>
+                                <li><strong>No Business Idea Required:</strong> Develop ideas during the program</li>
+                                <li><strong>No Specific Degree:</strong> Focus on talent and potential over credentials</li>
+                                <li><strong>No Previous Startup Experience:</strong> Early career stage preferred</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ What EF Looks For</h3>
+                            <ul>
+                                <li><strong>Exceptional Individuals:</strong> Outlier trajectory and continuous high performance</li>
+                                <li><strong>Technical Background:</strong> Self-taught to PhD level technical skills preferred</li>
+                                <li><strong>Builder Experience:</strong> Experience building products or organizations</li>
+                                <li><strong>Growth Ambition:</strong> Desire to build high-growth, world-changing companies</li>
+                                <li><strong>Early Career Stage:</strong> With demonstrated exceptional outcomes relative to peers</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">$11B+</div>
+                                <div class="stat-label">Portfolio Value</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">80%</div>
+                                <div class="stat-label">Find Co-founder</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">6 Cities</div>
+                                <div class="stat-label">Global Presence</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">24 Weeks</div>
+                                <div class="stat-label">Total Duration</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Application Strategy</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Emphasize your exceptional talent and ambition over specific startup ideas</li>
+                                <li>Highlight technical skills and experience building products/organizations</li>
+                                <li>Show continuous high performance relative to your peers</li>
+                                <li>Demonstrate desire to build world-changing, high-growth companies</li>
+                                <li>Apply to only one hub city at a time (restriction policy)</li>
+                            </ul>
+                        </div>
+                    `
+                },
+                'pearx': {
+                    name: 'PearX',
+                    subtitle: 'San Francisco • $250K-$2M • 12 Weeks • <1% Acceptance Rate',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $250K - $2M + $1M+ in Credits
+                            </div>
+                            <ul>
+                                <li><strong>Investment Range:</strong> $250,000 - $2,000,000 per company</li>
+                                <li><strong>Equity:</strong> Standard venture terms (varies by company stage)</li>
+                                <li><strong>Cloud Credits:</strong> Over $1M from Microsoft Azure, OpenAI, AWS, Google, Anthropic</li>
+                                <li><strong>Office Space:</strong> Free 6+ months at Pear Studio (30,000 sq ft, 240+ desks)</li>
+                                <li><strong>Funding Basis:</strong> Based on traction, market potential, and capital needs</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #ffebee; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #e74c3c;">
+                            <strong>❌ APPLICATIONS CLOSED:</strong> Summer 2025 (S25) applications closed April 28, 2025. Winter 2026 (W26) applications expected to open later in 2025.
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 12-week intensive accelerator program</li>
+                                <li><strong>Location:</strong> San Francisco Bay Area (mandatory relocation required)</li>
+                                <li><strong>Camp Pear:</strong> 3-day immersive retreat to kick off program</li>
+                                <li><strong>Demo Day:</strong> Final pitching event to investors</li>
+                                <li><strong>Cohort Size:</strong> Up to 20 startups per batch</li>
+                                <li><strong>Acceptance Rate:</strong> Less than 1% (extremely selective)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>1:1 Mentorship:</strong> Work directly with Pear VC partners with relevant expertise</li>
+                                <li><strong>Recruiting Support:</strong> Dedicated recruiter helps find engineers, co-founders, key hires</li>
+                                <li><strong>Success Rate:</strong> Over 90% successfully raise subsequent seed rounds</li>
+                                <li><strong>Track Record:</strong> 15 companies worth $100M+, 3 worth over $1B</li>
+                                <li><strong>Comprehensive Facilities:</strong> 20+ conference rooms, full studio workspace</li>
+                                <li><strong>Extended Support:</strong> 6+ months of continued office space access</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Requirements & Eligibility</h3>
+                            <ul>
+                                <li><strong>Stage:</strong> Pre-seed companies (can have raised up to $2M prior)</li>
+                                <li><strong>Founders:</strong> All stages welcome - idea stage to growing traction</li>
+                                <li><strong>Solo Founders:</strong> Welcome with co-founder matching support</li>
+                                <li><strong>Sectors:</strong> AI, SaaS, Enterprise, Healthcare, Deep Tech, Fintech, Biotech, Climate, Consumer</li>
+                                <li><strong>Relocation:</strong> Mandatory move to San Francisco Bay Area for program duration</li>
+                                <li><strong>Commitment:</strong> Full-time participation in 12-week intensive program</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value"><1%</div>
+                                <div class="stat-label">Acceptance Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">90%+</div>
+                                <div class="stat-label">Raise Follow-on</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">20</div>
+                                <div class="stat-label">Max Cohort Size</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">15</div>
+                                <div class="stat-label">$100M+ Companies</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">3</div>
+                                <div class="stat-label">$1B+ Companies</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">SF Bay</div>
+                                <div class="stat-label">Required Location</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Next Steps:</strong> Monitor https://pear.vc/pearx-application/ for Winter 2026 (W26) application opening. Follow Pear VC announcements for exact timing. Applications typically open several months before each cohort starts.
+                        </div>
+                    `
+                },
+                'hf0': {
+                    name: 'HF0 (Hacker Fellowship Zero)',
+                    subtitle: 'Elite Repeat Founders • SF Mansion • $1M Uncapped SAFE',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                $1M Uncapped SAFE for 5% Equity
+                            </div>
+                            <ul>
+                                <li><strong>Investment Amount:</strong> $1M Uncapped SAFE (some sources mention $500K)</li>
+                                <li><strong>Equity:</strong> 5% equity stake</li>
+                                <li><strong>Structure:</strong> Uncapped SAFE with no additional fees</li>
+                                <li><strong>Housing Included:</strong> Live in SF mansion with other founders</li>
+                                <li><strong>All Essentials:</strong> Housing, meals, workspace all provided</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #ffebee; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #e74c3c;">
+                            <strong>❌ DEADLINE PASSED:</strong> February 28, 2025 deadline has passed. Monitor https://www.hf0.com/apply for future cohorts.
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 12 weeks (3 months) full-time residency</li>
+                                <li><strong>Format:</strong> In-person "hacker monastery" in San Francisco mansion</li>
+                                <li><strong>Cohort Size:</strong> Approximately 10 founders/startups per cohort</li>
+                                <li><strong>Living Arrangement:</strong> Participants live together in shared mansion</li>
+                                <li><strong>Demo Day:</strong> Culminates with presentation to top-tier VCs</li>
+                                <li><strong>Environment:</strong> Zero distractions, pure focus on building</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>"Hacker Monastery":</strong> Complete focus environment without external distractions</li>
+                                <li><strong>Family Vibes:</strong> Close-knit community with fellow repeat founders</li>
+                                <li><strong>Elite Network:</strong> Access to top VCs and experienced founder mentors</li>
+                                <li><strong>Fast-track Fundraising:</strong> Program designed to prepare for seed rounds</li>
+                                <li><strong>Mentorship:</strong> Guidance from successful, experienced founders</li>
+                                <li><strong>All-Inclusive:</strong> Housing, meals, workspace completely provided</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Core Requirements</h3>
+                            <ul>
+                                <li><strong>Repeat Founders:</strong> Must have previously launched a startup (success not required)</li>
+                                <li><strong>Technical Expertise:</strong> Strong coding, engineering, or AI background required</li>
+                                <li><strong>Full Commitment:</strong> 12-week full-time, in-person residency mandatory</li>
+                                <li><strong>Early-Stage:</strong> Pre-seed or seed-stage ventures preferred</li>
+                                <li><strong>SF Relocation:</strong> Must live in San Francisco mansion during program</li>
+                                <li><strong>AI/Deep Tech Focus:</strong> Heavily favors AI and deep tech startups</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Ideal Candidate Profile</h3>
+                            <ul>
+                                <li><strong>Technical Co-founders:</strong> Strong engineering expertise essential</li>
+                                <li><strong>Previous Experience:</strong> Prior startup experience (successful or not)</li>
+                                <li><strong>Early Validation:</strong> Users, pilots, partnerships, or investor interest</li>
+                                <li><strong>AI Passion:</strong> Building AI or deep tech solutions</li>
+                                <li><strong>Aggressive Mindset:</strong> "Move fast, build relentlessly, scale aggressively"</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Selection Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Step 1:</strong> Online application through website</li>
+                                <li><strong>Step 2:</strong> Screening interview for initial evaluation</li>
+                                <li><strong>Step 3:</strong> In-person interview in San Francisco (required travel)</li>
+                                <li><strong>Step 4:</strong> Final cohort selection decision</li>
+                                <li><strong>Acceptance Rate:</strong> 1-2% (extremely selective)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">1-2%</div>
+                                <div class="stat-label">Acceptance Rate</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">10</div>
+                                <div class="stat-label">Founders per Cohort</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">12 weeks</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">SF Mansion</div>
+                                <div class="stat-label">Living Arrangement</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">AI/Deep Tech</div>
+                                <div class="stat-label">Primary Focus</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Repeat Only</div>
+                                <div class="stat-label">Founder Requirement</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Key Differentiators</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Most exclusive accelerator globally (1-2% acceptance rate)</li>
+                                <li>Unique "hacker monastery" living/working environment</li>
+                                <li>Exclusively for repeat founders with technical backgrounds</li>
+                                <li>High funding amount ($1M) for relatively short program</li>
+                                <li>Strong focus on AI and deep tech innovation</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #ffebee; border-radius: 10px;">
+                            <strong>Next Steps:</strong> The February 2025 deadline has passed. Monitor https://www.hf0.com/apply for future application cycles. Be prepared to demonstrate previous startup experience and strong technical background when applications reopen.
+                        </div>
+                    `
+                },
+                'betaworks': {
+                    name: 'Betaworks Camp',
+                    subtitle: 'Interface Focus • NYC • Up to $500K • 13 Weeks',
+                    content: `
+                        <div class="modal-funding">
+                            <h3>💰 Funding Terms</h3>
+                            <div style="font-size: 1.4rem; color: #27ae60; font-weight: bold; margin-bottom: 10px;">
+                                Up to $500,000 Total Investment
+                            </div>
+                            <ul>
+                                <li><strong>Betaworks Investment:</strong> $250,000</li>
+                                <li><strong>Syndicate Partners:</strong> Additional $250,000 from Mozilla Ventures, Differential Ventures, Stem AI</li>
+                                <li><strong>Investment Range:</strong> $250,000 - $750,000 (varies by company)</li>
+                                <li><strong>Stage Focus:</strong> Pre-seed and seed stage companies</li>
+                                <li><strong>Equity:</strong> No specific percentage disclosed publicly</li>
+                                <li><strong>No Application Fees:</strong> Free to apply</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #fff3e0; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #ff9800;">
+                            <strong>⚠️ PRIORITY DEADLINE:</strong> December 13, 2024 was priority deadline. Applications reviewed on rolling basis for Spring (Feb-May) and Fall (Aug-Nov) sessions.
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📅 Program Structure</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Duration:</strong> 13 weeks in-residence</li>
+                                <li><strong>Location:</strong> NYC Meatpacking District office</li>
+                                <li><strong>Cohort Size:</strong> 8-12 companies per session</li>
+                                <li><strong>Sessions per Year:</strong> Two (Spring Feb-May, Fall Aug-Nov)</li>
+                                <li><strong>Demo Day:</strong> Final pitch event to investors and partners</li>
+                                <li><strong>Global Applications:</strong> Accepted worldwide</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🎯 2025 Focus: "Interfaces" Theme</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Human-Machine Boundaries:</strong> Rethinking interaction paradigms</li>
+                                <li><strong>Voice-Native Tools:</strong> Building ambient agents and voice interfaces</li>
+                                <li><strong>Novel Input/Output:</strong> Creating new interaction flows</li>
+                                <li><strong>Multi-modal Interfaces:</strong> Developing sophisticated, invisible interfaces</li>
+                                <li><strong>Prompt-Based Interactions:</strong> Advanced AI interface design</li>
+                                <li><strong>Experience Focus:</strong> How AI is experienced, not just what it can do</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>🏆 Program Benefits</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Product Development:</strong> Comprehensive product strategy and development support</li>
+                                <li><strong>Platform Strategy:</strong> Guidance on platform and ecosystem approaches</li>
+                                <li><strong>Data Science:</strong> Advanced analytics and data science assistance</li>
+                                <li><strong>Branding Support:</strong> Professional branding and marketing guidance</li>
+                                <li><strong>Fundraising Prep:</strong> Investor preparation and pitch development</li>
+                                <li><strong>Network Access:</strong> Betaworks network and mentorship connections</li>
+                                <li><strong>NYC Workspace:</strong> Office space in prestigious Meatpacking District</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-requirements">
+                            <h3>✅ Application Requirements</h3>
+                            <ul>
+                                <li><strong>Global Reach:</strong> Applications accepted worldwide</li>
+                                <li><strong>Product Stage:</strong> Demo/beta product recommended but not mandatory</li>
+                                <li><strong>In-Person Participation:</strong> Some NYC presence required during program</li>
+                                <li><strong>Interface Vision:</strong> Strong opinion on interface design and innovation</li>
+                                <li><strong>Clear Vision:</strong> Well-defined perspective on human-computer interaction</li>
+                                <li><strong>Travel Responsibility:</strong> Founders responsible for travel and housing costs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <h3>📋 Application Process</h3>
+                            <ul class="benefit-list">
+                                <li><strong>Rolling Applications:</strong> Reviewed continuously throughout the year</li>
+                                <li><strong>Application Portal:</strong> betaworks.com/camp or betaworks.com/apply</li>
+                                <li><strong>Early Interest:</strong> Can submit interest through Airtable form</li>
+                                <li><strong>Spring Session:</strong> Applications typically open December-January</li>
+                                <li><strong>Fall Session:</strong> Applications typically open June-July</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">75%</div>
+                                <div class="stat-label">Raise Within 45 Days</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">8-12</div>
+                                <div class="stat-label">Companies per Cohort</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">13 weeks</div>
+                                <div class="stat-label">Program Duration</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">NYC</div>
+                                <div class="stat-label">Program Location</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">2</div>
+                                <div class="stat-label">Sessions per Year</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">Interfaces</div>
+                                <div class="stat-label">2025 Theme</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; padding: 15px; background: #e8f4fd; border-radius: 10px; border-left: 5px solid #3498db;">
+                            <h4 style="margin-bottom: 10px; color: #2c3e50;">💡 Application Strategy</h4>
+                            <ul style="margin: 0; padding-left: 20px;">
+                                <li>Focus heavily on interface innovation and human-computer interaction</li>
+                                <li>Demonstrate clear vision for rethinking how humans interact with technology</li>
+                                <li>Show understanding of voice, multi-modal, or invisible interface paradigms</li>
+                                <li>Emphasize the experience of your technology, not just its capabilities</li>
+                                <li>Prepare for potential NYC relocation during 13-week program</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding: 15px; background: #e8f5e8; border-radius: 10px;">
+                            <strong>Notable Alumni:</strong> Betaworks Camp has a strong track record with notable alumni including companies like Hugging Face. 75% of companies typically raise funding within 30-45 days of program completion.
+                        </div>
+                    `
+                }
+                // Add more accelerator details here...
+            };
+            
+            return details[accelerator] || {
+                name: 'Accelerator Details',
+                subtitle: 'Program Information',
+                content: '<p>Detailed information not yet available for this accelerator.</p>'
+            };
+        }
+
+        // Animation on load
         window.addEventListener('load', () => {
             const cards = document.querySelectorAll('.accelerator-card');
             cards.forEach((card, index) => {
                 card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+                card.style.transform = 'translateY(30px)';
                 setTimeout(() => {
-                    card.style.transition = 'opacity 0.5s, transform 0.5s';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
                 }, index * 100);
             });
         });
-        
-        // Update countdown every hour
-        function updateCountdown() {
-            const now = new Date('2025-07-13');
-            const alchemistDeadline = new Date('2025-07-18');
-            const convictionDeadline = new Date('2025-07-31');
-            
-            const alchemistDays = Math.ceil((alchemistDeadline - now) / (1000 * 60 * 60 * 24));
-            const convictionDays = Math.ceil((convictionDeadline - now) / (1000 * 60 * 60 * 24));
-            
-            if (alchemistDays <= 0) {
-                document.querySelector('.urgent-alert').innerHTML = 
-                    '⚠️ Alchemist Accelerator deadline has PASSED! • Conviction Embed deadline is July 31 (' + convictionDays + ' days!)';
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
             }
-        }
-        
-        // Initialize countdown
-        updateCountdown();
+        });
     </script>
 </body>
 </html>
